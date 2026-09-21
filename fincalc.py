@@ -24,6 +24,7 @@ def calcular_juros_compostos(capital: float, taxa_anual: float, anos: int) -> fl
     montante = capital * ((1 + (taxa_anual / 100)) ** anos)
     return montante
 
+
 # Implementação da Feature Cálculo de IRRF - Mateus Mendes Mattos
 def calcular_irrf(salario_bruto: float) -> float:
     if salario_bruto <= 2259.20:
@@ -45,7 +46,8 @@ if __name__ == "__main__":
     patrimonio = calcular_aposentadoria(10000.0, 500.0, 20, 6.0)
     print(f"Patrimônio Estimado para Aposentadoria: R$ {patrimonio:.2f}")
 
-    # Exibindo o cálculo do IRRF para um salário bruto de R$ 3000,00 - Mateus Mendes Mattos
     irrf = calcular_irrf(3000.00)
-    print(f"Calculo da aliquota simplificada de Imposto de Renda Retido na Fonte: R$ {irrf:.2f}")
-    
+    print(
+        "Cálculo da alíquota simplificada de Imposto de Renda Retido na Fonte: "
+        f"R$ {irrf:.2f}"
+    )
