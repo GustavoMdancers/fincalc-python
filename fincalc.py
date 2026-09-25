@@ -51,3 +51,30 @@ if __name__ == "__main__":
         "Cálculo da alíquota simplificada de Imposto de Renda Retido na Fonte: "
         f"R$ {irrf:.2f}"
     )
+
+# Implementação de features de calculo de Lucro Líquido e Margem e Rendimento Real Ajustado - Júlia Suriani
+def calcular_lucro_liquido(receita_total, custos_totais, impostos_despesas):
+    """Calcula o Lucro Líquido e a Margem Operacional."""
+    lucro_liquido = receita_total - custos_totais - impostos_despesas
+    margem_operacional = (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0
+    return lucro_liquido, margem_operacional
+
+
+def calcular_rendimento_real(rendimento_nominal_pct, inflacao_pct):
+    """Calcula o Rendimento Real Ajustado pela Inflação (Fórmula de Fisher)."""
+    i = rendimento_nominal_pct / 100
+    j = inflacao_pct / 100
+    rendimento_real_pct = ((1 + i) / (1 + j) - 1) * 100
+    return rendimento_real_pct
+
+
+if __name__ == "__main__":
+    print("--- Teste de Lucro Líquido e Margem Operacional ---")
+    lucro, margem = calcular_lucro_liquido(100000, 60000, 15000)
+    print(f"Lucro Líquido: R$ {lucro:.2f}")
+    print(f"Margem Operacional: {margem:.2f}%")
+
+    print("\n--- Teste de Rendimento Real Ajustado pela Inflação ---")
+    rend_real = calcular_rendimento_real(10.0, 4.5)
+    print(f"Rendimento Real Ajustado: {rend_real:.2f}%")
+
