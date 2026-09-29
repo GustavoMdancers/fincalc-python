@@ -52,11 +52,15 @@ if __name__ == "__main__":
         f"R$ {irrf:.2f}"
     )
 
-# Implementação de features de calculo de Lucro Líquido e Margem e Rendimento Real Ajustado - Júlia Suriani
+
+# Implementação de features de cálculo de Lucro Líquido e Margem e
+# Rendimento Real Ajustado - Júlia Suriani
 def calcular_lucro_liquido(receita_total, custos_totais, impostos_despesas):
     """Calcula o Lucro Líquido e a Margem Operacional."""
     lucro_liquido = receita_total - custos_totais - impostos_despesas
-    margem_operacional = (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0
+    margem_operacional = (
+        (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0
+    )
     return lucro_liquido, margem_operacional
 
 
@@ -77,4 +81,3 @@ if __name__ == "__main__":
     print("\n--- Teste de Rendimento Real Ajustado pela Inflação ---")
     rend_real = calcular_rendimento_real(10.0, 4.5)
     print(f"Rendimento Real Ajustado: {rend_real:.2f}%")
-
