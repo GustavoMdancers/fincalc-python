@@ -3,6 +3,8 @@
 
 def calcular_juros_simples(capital: float, taxa_anual: float, anos: int) -> float:
     """Calcula o montante final obtido por juros simples."""
+    if capital < 0 or anos < 0:
+        raise ValueError("Capital e anos devem ser não-negativos.")
     juros = capital * (taxa_anual / 100) * anos
     return capital + juros
 
@@ -11,6 +13,8 @@ def calcular_aposentadoria(
     patrimonio_atual: float, aporte_mensal: float, anos: int, taxa_anual: float
 ) -> float:
     """Calcula o patrimônio acumulado para aposentadoria."""
+    if patrimonio_atual < 0 or aporte_mensal < 0 or anos < 0:
+        raise ValueError("Patrimônio, aporte e anos devem ser não-negativos.")
     meses = anos * 12
     taxa_mensal = (taxa_anual / 100) / 12
     saldo = patrimonio_atual
@@ -37,6 +41,24 @@ def calcular_irrf(salario_bruto: float) -> float:
         return (salario_bruto * 0.225) - 662.77
 
 
+# Implementação da Feature Cálculo de Valor Futuro - João Paulo Leal Silveira
+def calcular_valor_futuro(
+    aporte_mensal: float, taxa_mensal: float, meses: int
+) -> float:
+    """Calcula o valor futuro acumulado com aportes mensais recorrentes."""
+    if aporte_mensal < 0 or meses < 0:
+        raise ValueError("Aporte mensal e meses não podem ser negativos.")
+    if meses == 0:
+        return 0.0
+
+    i = taxa_mensal / 100
+    if i == 0:
+        return aporte_mensal * meses
+
+    vf = aporte_mensal * (((1 + i) ** meses - 1) / i)
+    return vf
+
+
 if __name__ == "__main__":
     print("Iniciando o sistema FinCalc...")
     montante = calcular_juros_simples(1000.0, 5.0, 2)
@@ -51,6 +73,10 @@ if __name__ == "__main__":
         "Cálculo da alíquota simplificada de Imposto de Renda Retido na Fonte: "
         f"R$ {irrf:.2f}"
     )
+
+    print("\n--- Teste de Valor Futuro (João Paulo) ---")
+    vf = calcular_valor_futuro(500.0, 1.0, 3)
+    print(f"Valor Futuro acumulado (R$ 500/mês a 1% por 3 meses): R$ {vf:.2f}")
 
 
 # Implementação de features de cálculo de Lucro Líquido e Margem e
