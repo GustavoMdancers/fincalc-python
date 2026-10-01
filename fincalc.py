@@ -84,28 +84,33 @@ if __name__ == "__main__":
 
 
 # Implementação da Feature Cálculo de Amortização Price - Func 03 (Luca)
-def calcular_parcela_price(valor_emprestimo: float, taxa_mensal: float, meses: int) -> float:
+def calcular_parcela_price(
+    valor_emprestimo: float, taxa_mensal: float, meses: int
+) -> float:
     """Calcula o valor da parcela fixa em um financiamento pela Tabela Price."""
     if valor_emprestimo < 0:
         raise ValueError("O empréstimo não pode ser negativo.")
-        
+
     if taxa_mensal == 0:
         return valor_emprestimo / meses
-        
+
     i = taxa_mensal / 100
-    parcela = valor_emprestimo * (i * ((1 + i) ** meses)) / (((1 + i) ** meses) - 1)
-    return parcela
+    numerador = i * ((1 + i) ** meses)
+    denominador = ((1 + i) ** meses) - 1
+    return valor_emprestimo * (numerador / denominador)
 
 
 # Implementação da Feature Cálculo de Depreciação Linear - Func 05 (Luca)
-def calcular_depreciacao_linear(valor_inicial: float, valor_residual: float, vida_util_anos: int) -> float:
+def calcular_depreciacao_linear(
+    valor_inicial: float, valor_residual: float, vida_util_anos: int
+) -> float:
     """Calcula o valor de depreciação anual de um ativo corporativo."""
     if vida_util_anos <= 0:
         raise ValueError("A vida útil não pode ser zero ou negativa.")
-        
+
     if valor_residual > valor_inicial:
-        raise ValueError("O valor residual não pode ser maior que o valor inicial.")
-        
+        raise ValueError("O valor residual não pode ser maior que o inicial.")
+
     return (valor_inicial - valor_residual) / vida_util_anos
 
 
