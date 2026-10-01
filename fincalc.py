@@ -81,3 +81,45 @@ if __name__ == "__main__":
     print("\n--- Teste de Rendimento Real Ajustado pela Inflação ---")
     rend_real = calcular_rendimento_real(10.0, 4.5)
     print(f"Rendimento Real Ajustado: {rend_real:.2f}%")
+
+
+# Implementação da Feature Cálculo de Amortização Price - Func 03 (Luca)
+def calcular_parcela_price(
+    valor_emprestimo: float, taxa_mensal: float, meses: int
+) -> float:
+    """Calcula o valor da parcela fixa em um financiamento pela Tabela Price."""
+    if valor_emprestimo < 0:
+        raise ValueError("O empréstimo não pode ser negativo.")
+
+    if taxa_mensal == 0:
+        return valor_emprestimo / meses
+
+    i = taxa_mensal / 100
+    numerador = i * ((1 + i) ** meses)
+    denominador = ((1 + i) ** meses) - 1
+    return valor_emprestimo * (numerador / denominador)
+
+
+# Implementação da Feature Cálculo de Depreciação Linear - Func 05 (Luca)
+def calcular_depreciacao_linear(
+    valor_inicial: float, valor_residual: float, vida_util_anos: int
+) -> float:
+    """Calcula o valor de depreciação anual de um ativo corporativo."""
+    if vida_util_anos <= 0:
+        raise ValueError("A vida útil não pode ser zero ou negativa.")
+
+    if valor_residual > valor_inicial:
+        raise ValueError("O valor residual não pode ser maior que o inicial.")
+
+    return (valor_inicial - valor_residual) / vida_util_anos
+
+
+# Bloco para testar manualmente as suas funções
+if __name__ == "__main__":
+    print("\n--- Teste Tabela Price (Func 03) ---")
+    parcela_price = calcular_parcela_price(10000.0, 1.5, 12)
+    print(f"Parcela Tabela Price: R$ {parcela_price:.2f}")
+
+    print("\n--- Teste Depreciação Linear (Func 05) ---")
+    depreciacao = calcular_depreciacao_linear(50000.0, 5000.0, 5)
+    print(f"Depreciação Linear Anual: R$ {depreciacao:.2f}")
