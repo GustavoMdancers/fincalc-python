@@ -149,3 +149,15 @@ if __name__ == "__main__":
     print("\n--- Teste Depreciação Linear (Func 05) ---")
     depreciacao = calcular_depreciacao_linear(50000.0, 5000.0, 5)
     print(f"Depreciação Linear Anual: R$ {depreciacao:.2f}")
+
+
+# Implementação da Feature Conversão de Taxa de Juros - Luiz Felipe Silva Araujo
+def converter_taxa_anual_para_mensal(taxa_anual: float) -> float:
+    """Converte uma taxa de juros anual equivalente para taxa mensal."""
+    return (((1 + (taxa_anual / 100)) ** (1 / 12)) - 1) * 100
+
+
+if __name__ == "__main__":
+    print("\n--- Teste de Conversão de Taxa (Anual para Mensal) ---")
+    taxa_mensal = converter_taxa_anual_para_mensal(12.0)
+    print(f"Taxa Mensal Equivalente (12% a.a.): {taxa_mensal:.4f}% a.m.")
