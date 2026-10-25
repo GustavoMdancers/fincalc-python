@@ -84,19 +84,35 @@ if __name__ == "__main__":
     print(f"Valor Futuro acumulado (R$ 500/mês a 1% por 3 meses): R$ {vf:.2f}")
 
 
-# Implementação de features de cálculo de Lucro Líquido e Margem e
-# Rendimento Real Ajustado - Júlia Suriani
-def calcular_lucro_liquido(receita_total, custos_totais, impostos_despesas):
-    """Calcula o Lucro Líquido e a Margem Operacional."""
-    lucro_liquido = receita_total - custos_totais - impostos_despesas
-    margem_operacional = (
-        (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0
-    )
-    return lucro_liquido, margem_operacional
+# Implementação de features de cálculo de Lucro Líquido e Margem e Rendimento Real Ajustado - Júlia Suriani
+def calcular_margem_liquida(receita_total: float, custos_totais: float, impostos_despesas: float = 0.0) -> float:
+    """Calcula a margem de lucro líquida percentual de uma operação."""
+    if receita_total <= 0:
+        raise ValueError("A receita total não pode ser zero ou negativa.")
+    if custos_totais < 0:
+        raise ValueError("Os custos totais não podem ser negativos.")
+    
+    lucro = receita_total - custos_totais - impostos_despesas
+    return (lucro / receita_total) * 100
 
+
+def calcular_lucro_liquido(receita_total: float, custos_totais: float, impostos_despesas: float = 0.0):
+    """Mantido para compatibilidade com o teste base (retorna tupla)."""
+    if receita_total < 0:  # <--- Mude de <= para <
+        raise ValueError("A receita total não pode ser negativa.")
+    if custos_totais < 0:
+        raise ValueError("Os custos totais não podem ser negativos.")
+    
+    lucro_liquido = receita_total - custos_totais - impostos_despesas
+    # Se a receita for 0, o Python vai lidar com a divisão por zero ou retornar 0 conforme o teste espera
+    margem_operacional = (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0.0
+    return lucro_liquido, margem_operacional
 
 def calcular_rendimento_real(rendimento_nominal_pct, inflacao_pct):
     """Calcula o Rendimento Real Ajustado pela Inflação (Fórmula de Fisher)."""
+    if inflacao_pct <= -100:
+        raise ValueError("A inflação não pode ser igual ou menor que -100%.")
+        
     i = rendimento_nominal_pct / 100
     j = inflacao_pct / 100
     rendimento_real_pct = ((1 + i) / (1 + j) - 1) * 100
@@ -104,14 +120,17 @@ def calcular_rendimento_real(rendimento_nominal_pct, inflacao_pct):
 
 
 if __name__ == "__main__":
-    print("--- Teste de Lucro Líquido e Margem Operacional ---")
-    lucro, margem = calcular_lucro_liquido(100000, 60000, 15000)
-    print(f"Lucro Líquido: R$ {lucro:.2f}")
-    print(f"Margem Operacional: {margem:.2f}%")
+    print("--- Teste de Margem Líquida ---")
+    margem = calcular_margem_liquida(100000.0, 70000.0)
+    print(f"Margem Líquida: {margem:.2f}%")
 
     print("\n--- Teste de Rendimento Real Ajustado pela Inflação ---")
     rend_real = calcular_rendimento_real(10.0, 4.5)
     print(f"Rendimento Real Ajustado: {rend_real:.2f}%")
+
+    print("\n--- Teste de Lucro Líquido e Margem Operacional ---")
+    lucro_val, margem_val = calcular_lucro_liquido(100000, 60000, 15000)
+    print(f"Lucro Líquido: R$ {lucro_val:.2f} | Margem: {margem_val:.2f}%")
 
 
 # Implementação da Feature Cálculo de Amortização Price - Func 03 (Luca)
