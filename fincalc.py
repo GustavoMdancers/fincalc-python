@@ -93,7 +93,7 @@ def calcular_margem_liquida(receita_total: float, custos_totais: float, impostos
         raise ValueError("A receita total não pode ser zero ou negativa.")
     if custos_totais < 0:
         raise ValueError("Os custos totais não podem ser negativos.")
-    
+
     lucro = receita_total - custos_totais - impostos_despesas
     return (lucro / receita_total) * 100
 
@@ -104,17 +104,18 @@ def calcular_lucro_liquido(receita_total: float, custos_totais: float, impostos_
         raise ValueError("A receita total não pode ser negativa.")
     if custos_totais < 0:
         raise ValueError("Os custos totais não podem ser negativos.")
-    
+
     lucro_liquido = receita_total - custos_totais - impostos_despesas
     # Se a receita for 0, o Python vai lidar com a divisão por zero ou retornar 0 conforme o teste espera
     margem_operacional = (lucro_liquido / receita_total) * 100 if receita_total > 0 else 0.0
     return lucro_liquido, margem_operacional
 
+
 def calcular_rendimento_real(rendimento_nominal_pct, inflacao_pct):
     """Calcula o Rendimento Real Ajustado pela Inflação (Fórmula de Fisher)."""
     if inflacao_pct <= -100:
         raise ValueError("A inflação não pode ser igual ou menor que -100%.")
-        
+
     i = rendimento_nominal_pct / 100
     j = inflacao_pct / 100
     rendimento_real_pct = ((1 + i) / (1 + j) - 1) * 100
