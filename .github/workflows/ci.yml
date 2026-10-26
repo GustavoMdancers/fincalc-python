@@ -1,35 +1,48 @@
-name: FinCalc CI - Professional Static Analysis
+name: FinCalc CI - Quality & Unit Testing Pipeline
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build-and-lint:
-    name: Build Verification & Linter (Flake8 & Bandit)
+  build-lint-test:
+    name: Build, Static Analysis & Automated Unit Tests
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout do Código
       uses: actions/checkout@v4
 
-    - name: Configurar Python
+    - name: Configurar Python 3.11
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
-    - name: Instalar Ferramentas de Análise Estática
+    - name: Instalar Dependências
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Validar Sintaxe (Compilação Nativa)
-      run: python -m py_compile fincalc.py
+    - name: Validação de Sintaxe (Compilação Nativa)
+      run: |
+        python -m py_compile fincalc.py
+        python -m py_compile tests/test_*.py
 
-    - name: Executar Linter de Estilo e Boas Práticas (Flake8)
-      run: flake8 fincalc.py
+    - name: Análise Estática de Estilo (Flake8)
+      run: flake8 fincalc.py tests/
 
-    - name: Executar Linter de Segurança (Bandit)
+    - name: Auditoria de Segurança (Bandit)
       run: bandit -r fincalc.py
+
+    - name: Executar Testes Unitários e Cobertura (Pytest)
+      run: |
+        python -m pytest tests/ -v --cov=fincalc --cov-report=term-missing --cov-report=html:coverage_report
+
+    - name: Publicar Artefato do Relatório de Cobertura
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report-html
+        path: coverage_report/
+
+# JOB 2: ENTREGA CONTÍNUA (CD DESAFIO) ...
