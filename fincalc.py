@@ -36,6 +36,8 @@ def calcular_juros_compostos(capital: float, taxa_anual: float, anos: int) -> fl
 
 # Implementação da Feature Cálculo de IRRF - Mateus Mendes Mattos
 def calcular_irrf(salario_bruto: float) -> float:
+    if salario_bruto < 0:
+        raise ValueError("Salário bruto não pode ser negativo")
     if salario_bruto <= 2259.20:
         return 0.0
     elif salario_bruto <= 2826.65:
